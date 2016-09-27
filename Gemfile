@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'pg'
+
 gem 'mina', '~> 0.3.8'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'

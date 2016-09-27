@@ -1,7 +1,6 @@
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
-require 'mina_sidekiq/tasks'
 require 'mina/whenever'
 require 'mina/rvm'    # for rvm support. (http://rvm.io)
 
@@ -10,11 +9,7 @@ user = %x(git config user.name).delete("\n")
 branch = (ENV['branch'].nil? ? %x(git symbolic-ref --short -q HEAD).delete("\n") : ENV['branch'])
 branch = "master" if branch == ""
 
-puts "Please select the server."
-puts "1. production"
 
-STDOUT.flush
-input = STDIN.get.chomp
 server = 'ec2-54-69-75-174.us-west-2.compute.amazonaws.com'
 server_uri = 'ec2-54-69-75-174.us-west-2.compute.amazonaws.com'
 env = 'production'
@@ -55,7 +50,7 @@ task :environment do
   # invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-   invoke :'rvm:use[ruby-2.3.1-p125@sleek_poster]'
+   invoke :'rvm:use[ruby-2.3.1@default]'
 end
 
 # Put any custom mkdir's in here for when `mina setup` is ran.
@@ -79,7 +74,6 @@ desc "Deploys the current version to the server."
 task :deploy => :environment do
   deploy do
     # Put things that will set up an empty directory into a fully set-up
-    invoke :'sidekiq:quiet'
     # instance of your project.
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
@@ -91,7 +85,6 @@ task :deploy => :environment do
     to :launch do
       queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
       queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
-      invoke :'sidekiq:restart'
       invoke :'whenever:update'
     end
   end
