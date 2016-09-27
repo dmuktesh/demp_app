@@ -1,7 +1,6 @@
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
-require 'mina/whenever'
 require 'mina/rvm'    # for rvm support. (http://rvm.io)
 
 user = %x(git config user.name).delete("\n")
@@ -85,7 +84,6 @@ task :deploy => :environment do
     to :launch do
       queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
       queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
-      invoke :'whenever:update'
     end
   end
 end

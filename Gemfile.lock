@@ -156,7 +156,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   mina (~> 0.3.8)
-  pg (= 0.12.2)
+  pg
   rails (= 4.2.6)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
