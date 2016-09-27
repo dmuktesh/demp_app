@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'pg'
 
 gem 'mina', '~> 0.3.8'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -47,6 +46,4 @@ group :development do
   gem 'spring'
 end
 
-group :production do
-	gem 'pg','0.12.2'
-end
+gem 'pg','0.12.2'
